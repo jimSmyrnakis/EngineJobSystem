@@ -9,139 +9,97 @@ ifndef verbose
 endif
 
 ifeq ($(config),debug_x86)
-  FiberJobSystem_config = debug_x86
-  FiberJobSystemTests_config = debug_x86
-  FiberJobSystemPerformance_config = debug_x86
-  AOSHLL_config = debug_x86
-  AOSHLLTests_config = debug_x86
+  CoreSDK_config = debug_x86
+  RuntimeSDK_config = debug_x86
+  TestSDK_config = debug_x86
 
 else ifeq ($(config),debug_x64)
-  FiberJobSystem_config = debug_x64
-  FiberJobSystemTests_config = debug_x64
-  FiberJobSystemPerformance_config = debug_x64
-  AOSHLL_config = debug_x64
-  AOSHLLTests_config = debug_x64
+  CoreSDK_config = debug_x64
+  RuntimeSDK_config = debug_x64
+  TestSDK_config = debug_x64
 
 else ifeq ($(config),debug_arm32)
-  FiberJobSystem_config = debug_arm32
-  FiberJobSystemTests_config = debug_arm32
-  FiberJobSystemPerformance_config = debug_arm32
-  AOSHLL_config = debug_arm32
-  AOSHLLTests_config = debug_arm32
+  CoreSDK_config = debug_arm32
+  RuntimeSDK_config = debug_arm32
+  TestSDK_config = debug_arm32
 
 else ifeq ($(config),debug_arm64)
-  FiberJobSystem_config = debug_arm64
-  FiberJobSystemTests_config = debug_arm64
-  FiberJobSystemPerformance_config = debug_arm64
-  AOSHLL_config = debug_arm64
-  AOSHLLTests_config = debug_arm64
+  CoreSDK_config = debug_arm64
+  RuntimeSDK_config = debug_arm64
+  TestSDK_config = debug_arm64
 
 else ifeq ($(config),release_x86)
-  FiberJobSystem_config = release_x86
-  FiberJobSystemTests_config = release_x86
-  FiberJobSystemPerformance_config = release_x86
-  AOSHLL_config = release_x86
-  AOSHLLTests_config = release_x86
+  CoreSDK_config = release_x86
+  RuntimeSDK_config = release_x86
+  TestSDK_config = release_x86
 
 else ifeq ($(config),release_x64)
-  FiberJobSystem_config = release_x64
-  FiberJobSystemTests_config = release_x64
-  FiberJobSystemPerformance_config = release_x64
-  AOSHLL_config = release_x64
-  AOSHLLTests_config = release_x64
+  CoreSDK_config = release_x64
+  RuntimeSDK_config = release_x64
+  TestSDK_config = release_x64
 
 else ifeq ($(config),release_arm32)
-  FiberJobSystem_config = release_arm32
-  FiberJobSystemTests_config = release_arm32
-  FiberJobSystemPerformance_config = release_arm32
-  AOSHLL_config = release_arm32
-  AOSHLLTests_config = release_arm32
+  CoreSDK_config = release_arm32
+  RuntimeSDK_config = release_arm32
+  TestSDK_config = release_arm32
 
 else ifeq ($(config),release_arm64)
-  FiberJobSystem_config = release_arm64
-  FiberJobSystemTests_config = release_arm64
-  FiberJobSystemPerformance_config = release_arm64
-  AOSHLL_config = release_arm64
-  AOSHLLTests_config = release_arm64
+  CoreSDK_config = release_arm64
+  RuntimeSDK_config = release_arm64
+  TestSDK_config = release_arm64
 
 else ifeq ($(config),dist_x86)
-  FiberJobSystem_config = dist_x86
-  FiberJobSystemTests_config = dist_x86
-  FiberJobSystemPerformance_config = dist_x86
-  AOSHLL_config = dist_x86
-  AOSHLLTests_config = dist_x86
+  CoreSDK_config = dist_x86
+  RuntimeSDK_config = dist_x86
+  TestSDK_config = dist_x86
 
 else ifeq ($(config),dist_x64)
-  FiberJobSystem_config = dist_x64
-  FiberJobSystemTests_config = dist_x64
-  FiberJobSystemPerformance_config = dist_x64
-  AOSHLL_config = dist_x64
-  AOSHLLTests_config = dist_x64
+  CoreSDK_config = dist_x64
+  RuntimeSDK_config = dist_x64
+  TestSDK_config = dist_x64
 
 else ifeq ($(config),dist_arm32)
-  FiberJobSystem_config = dist_arm32
-  FiberJobSystemTests_config = dist_arm32
-  FiberJobSystemPerformance_config = dist_arm32
-  AOSHLL_config = dist_arm32
-  AOSHLLTests_config = dist_arm32
+  CoreSDK_config = dist_arm32
+  RuntimeSDK_config = dist_arm32
+  TestSDK_config = dist_arm32
 
 else ifeq ($(config),dist_arm64)
-  FiberJobSystem_config = dist_arm64
-  FiberJobSystemTests_config = dist_arm64
-  FiberJobSystemPerformance_config = dist_arm64
-  AOSHLL_config = dist_arm64
-  AOSHLLTests_config = dist_arm64
+  CoreSDK_config = dist_arm64
+  RuntimeSDK_config = dist_arm64
+  TestSDK_config = dist_arm64
 
 else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := FiberJobSystem FiberJobSystemTests FiberJobSystemPerformance AOSHLL AOSHLLTests
+PROJECTS := CoreSDK RuntimeSDK TestSDK
 
-.PHONY: all clean help $(PROJECTS) BenchMarks Tests
+.PHONY: all clean help $(PROJECTS) 
 
 all: $(PROJECTS)
 
-BenchMarks: AOSHLL FiberJobSystemPerformance
-
-Tests: AOSHLLTests FiberJobSystemTests
-
-FiberJobSystem:
-ifneq (,$(FiberJobSystem_config))
-	@echo "==== Building FiberJobSystem ($(FiberJobSystem_config)) ===="
-	@${MAKE} --no-print-directory -C ../FiberJobSystem -f FiberJobSystem.make config=$(FiberJobSystem_config)
+CoreSDK:
+ifneq (,$(CoreSDK_config))
+	@echo "==== Building CoreSDK ($(CoreSDK_config)) ===="
+	@${MAKE} --no-print-directory -C CoreSDK -f Makefile config=$(CoreSDK_config)
 endif
 
-FiberJobSystemTests: FiberJobSystem
-ifneq (,$(FiberJobSystemTests_config))
-	@echo "==== Building FiberJobSystemTests ($(FiberJobSystemTests_config)) ===="
-	@${MAKE} --no-print-directory -C ../FiberJobSystem -f FiberJobSystemTests.make config=$(FiberJobSystemTests_config)
+RuntimeSDK: CoreSDK
+ifneq (,$(RuntimeSDK_config))
+	@echo "==== Building RuntimeSDK ($(RuntimeSDK_config)) ===="
+	@${MAKE} --no-print-directory -C RuntimeSDK -f Makefile config=$(RuntimeSDK_config)
 endif
 
-FiberJobSystemPerformance: FiberJobSystem
-ifneq (,$(FiberJobSystemPerformance_config))
-	@echo "==== Building FiberJobSystemPerformance ($(FiberJobSystemPerformance_config)) ===="
-	@${MAKE} --no-print-directory -C ../FiberJobSystem -f FiberJobSystemPerformance.make config=$(FiberJobSystemPerformance_config)
-endif
-
-AOSHLL:
-ifneq (,$(AOSHLL_config))
-	@echo "==== Building AOSHLL ($(AOSHLL_config)) ===="
-	@${MAKE} --no-print-directory -C ../AOSHLL -f AOSHLL.make config=$(AOSHLL_config)
-endif
-
-AOSHLLTests: AOSHLL
-ifneq (,$(AOSHLLTests_config))
-	@echo "==== Building AOSHLLTests ($(AOSHLLTests_config)) ===="
-	@${MAKE} --no-print-directory -C ../AOSHLL -f AOSHLLTests.make config=$(AOSHLLTests_config)
+TestSDK: CoreSDK
+ifneq (,$(TestSDK_config))
+	@echo "==== Building TestSDK ($(TestSDK_config)) ===="
+	@${MAKE} --no-print-directory -C TestSDK -f Makefile config=$(TestSDK_config)
 endif
 
 clean:
-	@${MAKE} --no-print-directory -C ../FiberJobSystem -f FiberJobSystem.make clean
-	@${MAKE} --no-print-directory -C ../FiberJobSystem -f FiberJobSystemTests.make clean
-	@${MAKE} --no-print-directory -C ../FiberJobSystem -f FiberJobSystemPerformance.make clean
-	@${MAKE} --no-print-directory -C ../AOSHLL -f AOSHLL.make clean
-	@${MAKE} --no-print-directory -C ../AOSHLL -f AOSHLLTests.make clean
+	@${MAKE} --no-print-directory -C CoreSDK -f Makefile clean
+	@${MAKE} --no-print-directory -C RuntimeSDK -f Makefile clean
+	@${MAKE} --no-print-directory -C TestSDK -f Makefile clean
 
 help:
 	@echo "Usage: make [config=name] [target]"
@@ -163,10 +121,8 @@ help:
 	@echo "TARGETS:"
 	@echo "   all (default)"
 	@echo "   clean"
-	@echo "   FiberJobSystem"
-	@echo "   FiberJobSystemTests"
-	@echo "   FiberJobSystemPerformance"
-	@echo "   AOSHLL"
-	@echo "   AOSHLLTests"
+	@echo "   CoreSDK"
+	@echo "   RuntimeSDK"
+	@echo "   TestSDK"
 	@echo ""
 	@echo "For more information, see https://github.com/premake/premake-core/wiki"

@@ -1,0 +1,7 @@
+1. clean.sh / clean.bat must clean only the files inside the CoreSDK , TestSDK , PerfSDK , RuntimeSDK 
+and not in Dependencies and Tools .
+
+2. Make Coverage output work on linux
+
+3. Make Coverage output work on Windows
+
